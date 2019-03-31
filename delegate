@@ -52,3 +52,65 @@ namespace Delegate
         }
     }
 }
+
+//二.
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Delegate
+{
+    delegate void D(int x);
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            D cd1 = new D(C.M1);
+            cd1(-1);
+            Console.WriteLine();
+            D cd2 = new D(C.M2);
+            cd2(-2);
+            Console.WriteLine();
+            D cd3 = cd1 + cd2;
+            cd3(3);
+            Console.WriteLine();
+
+            C c = new C();
+            D cd4 = new D(c.M3);
+            cd3 += cd4;
+            cd3(4);
+            Console.WriteLine();
+            cd3 += cd1;
+            cd3(5);
+            Console.WriteLine();
+            //委托绑定和解绑是栈式模型
+            //顺序是可以改变的，没有绑定的话程序会报错
+            cd3 -= cd1;
+            cd3 -= cd2;
+            cd3 -= cd1;
+            cd3 -= cd4;
+            cd3(1);
+            //没有委托亦可以继续减，不会报错
+            cd3 -= cd1;
+            Console.ReadLine();
+        }
+    }
+    class C
+    {
+        public static void M1(int i)
+        {
+            Console.WriteLine("C.M1 "+i);
+        }
+        public static void M2(int i)
+        {
+            Console.WriteLine("C.M2 "+i);
+        }
+        public  void M3(int i)
+        {
+            Console.WriteLine("C.M3 "+i);
+        }
+    }
+}
+
