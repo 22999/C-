@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Delegate
+{
+    delegate int NumberChanger(int n);
+    class Program
+    {
+        static int num = 10;
+        static void Main(string[] args)
+        {
+            //AddNum(25);
+            //1.C#通过委托调用静态方法
+            //NumberChanger nc1 = new NumberChanger(AddNum);
+            //nc1(25);            
+            //Console.WriteLine("Value of Num:{0}", num);
+            //Console.ReadLine();
+            //2.C#通过委托调用实例化方法
+            Myclass mc = new Myclass();
+
+            NumberChanger nc2 = new NumberChanger(mc.AddNum);
+            nc2(35);
+            Console.WriteLine("Value of Num:{0}", mc.num);
+
+            NumberChanger nc3 = new NumberChanger(mc.MutliNum);
+            nc3(10);
+            Console.WriteLine("Value of Num:{0}",mc.num);
+            Console.ReadLine();
+        }
+        public static int AddNum(int p)
+        {
+            num += p;
+            return num;
+        }
+
+    }
+    class Myclass
+    {
+        public int num = 10;
+        public int AddNum(int p)
+        {
+            num += p;
+            return num;
+        }
+        public int MutliNum(int p)
+        {
+            num *= p;
+            return num;
+        }
+    }
+}
