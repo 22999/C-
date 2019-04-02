@@ -1,0 +1,154 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace test
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            MyGenericArray<int> intArray = new MyGenericArray<int>(5);
+            for (int c = 0; c < 5; c++)
+            {
+                intArray.SetItem(c, c * 5);
+            }
+            for (int c = 0; c < 5; c++)
+            {
+                Console.Write(intArray.GetItem(c)+" ");
+            }
+            Console.WriteLine();
+            MyGenericArray<char> charArray = new MyGenericArray<char>(5);
+            for (int c = 0; c < 5; c++)
+            {
+                charArray.SetItem(c, (char)(c + 97));
+            }
+            for (int c = 0; c < 5; c++)
+            {
+                Console.Write(charArray.GetItem(c) + " ");
+            }
+            Console.ReadLine();
+        }
+    }
+    public class MyGenericArray<T>
+    {
+        private T[] array;
+        public MyGenericArray(int size)
+        {
+            array = new T[size + 1];
+        }
+        public T GetItem(int index)
+        {
+            return array[index];
+        }
+        public void SetItem(int index,T value)
+        {
+            array[index] = value;
+        }
+    }
+}
+
+补充
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace test
+{
+    //声明委托3.1
+    delegate T NumberChanger<T>(T n);
+    class Program
+    {
+        //3.2
+        static int num = 10;
+        static void Main(string[] args)
+        {
+            //1.泛型普通使用
+            MyGenericArray<int> intArray = new MyGenericArray<int>(5);
+            // MyGenericArray<int, char> intArray = new MyGenericArray<int, char>(5);
+            //  public class MyGenericArray<T,K>传递多个参数
+            for (int c = 0; c < 5; c++)
+            {
+                intArray.SetItem(c, c * 5);
+            }
+            for (int c = 0; c < 5; c++)
+            {
+                Console.Write(intArray.GetItem(c)+" ");
+            }
+            
+            Console.WriteLine();
+            MyGenericArray<char> charArray = new MyGenericArray<char>(5);
+            for (int c = 0; c < 5; c++)
+            {
+                charArray.SetItem(c, (char)(c + 97));
+            }
+            for (int c = 0; c < 5; c++)
+            {
+                Console.Write(charArray.GetItem(c) + " ");
+            }
+            Console.WriteLine();
+            //2.交换变量的值
+            int a, b;
+            char e, f;
+            a = 10;
+            b = 20;
+            e = 'I';
+            f = 'V';
+            Console.WriteLine("a:{0};b:{1}",a,b);
+            Console.WriteLine("e:{0};f:{1}",e,f);
+            Swap<int>(ref a, ref b);
+            Swap<char>(ref e, ref f);
+            Console.WriteLine("a:{0};b:{1}", a, b);
+            Console.WriteLine("e:{0};f:{1}", e, f);
+            //3.泛型在委托中的使用
+            NumberChanger<int> nc1 = new NumberChanger<int>(AddNum);
+            NumberChanger<int> nc2 = new NumberChanger<int>(MultNum);
+            nc1(10);
+            Console.WriteLine(num);
+            nc2(20);
+            Console.WriteLine(num);
+            Console.ReadLine();
+        }
+        private static void Swap<T>(ref T lhs,ref T rhs)
+        {
+            T temp;
+            temp = lhs;
+            lhs = rhs;
+            rhs = temp;
+        }
+        //3.3
+        public static int AddNum(int p)
+        {
+            num += p;
+            return num;
+        }
+        public static int MultNum(int p)
+        {
+            num *= p;
+            return num;
+        }
+
+    }
+    //class,interface,instance class
+    public class MyGenericArray<T>
+    {
+        //public class MyGenericArray<T> where T:struct限制值类型(参数类型的限制)
+        private T[] array;
+        public MyGenericArray(int size)
+        {
+            array = new T[size + 1];
+        }
+        public T GetItem(int index)
+        {
+            return array[index];
+        }
+        public void SetItem(int index,T value)
+        {
+            array[index] = value;
+        }
+    }
+}
