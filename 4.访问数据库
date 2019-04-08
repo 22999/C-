@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data;//引用1
+using System.Data.SqlClient;//引用2
+
+namespace test
+{
+    class Program
+    {
+        public SqlConnection con;
+        public SqlDataAdapter ada;
+        //设置数据库连接字符串
+        static private string GetConnectString()
+        {
+            return @"Data Source=.;Initial Catalog=j17002web;Integrated Security=True";
+        }
+        private DataSet GetData(string sqlstring)
+        {
+            //建立SQL语句与数据库连接
+            con = new SqlConnection(GetConnectString());
+            //
+            ada = new SqlDataAdapter(sqlstring, con);
+            //1.实例化DataTable类
+            //DataTable dt = new DataTable();
+            //ada.Fill(dt);
+            //return dt;
+            //private DataTable GetData(string sqlstring)
+
+            //2.实例化DataSet类
+            DataSet ds = new DataSet();
+            ada.Fill(ds, "info");
+            return ds;
+        }
+        static void Main(string[] args)
+        {
+        }
+    }
+}
