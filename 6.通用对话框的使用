@@ -1,0 +1,36 @@
+ private void btn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "所有JPG文件（*.jpg）|*.jpg|所有png文件（*.png）|*.png|所有文件（*.*）|*.*";
+            DialogResult result = ofd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                //MessageBox.Show(ofd.FileName);//返回文件路径
+                picSizeT(pB1, pB2, ofd.FileName);
+
+            }
+        }
+ public void picSizeT(PictureBox p1, PictureBox p2, string pathT)
+        {
+            p2.Image = Image.FromFile(pathT);
+            float w = p2.Width;
+            float h = p2.Height;
+            if ((h > w) && ((h / w) > (pn1.Height / pn1.Width)))
+            {
+                pB1.Height = pn1.Height - 20;
+                pB1.Width = (int)(((w *1000)/ h) * pB1.Height/1000);
+                pB1.Image = pB2.Image;
+                pB1.Top = (pn1.Height - pB1.Height) / 2;
+                pB1.Left = (pn1.Width - pB1.Width) / 2;
+                //(int)(((w * 1000) / h) * h1 / 1000);
+            }
+            else
+            {
+                pB1.Width = pn1.Width - 20;
+                pB1.Height = (int)(((h*1000) / w) * pB1.Width/1000);
+                pB1.Image = pB2.Image;
+                pB1.Top = (pn1.Height - pB1.Height) / 2;
+                pB1.Left = (pn1.Width - pB1.Width) / 2;
+            }
+
+        }
